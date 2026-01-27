@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-01-26 20:43:12
  * @ Modified by: Lopapon
- * @ Modified time: 2026-01-27 13:30:12
+ * @ Modified time: 2026-01-27 18:31:19
  * @ Description:
  */
 
@@ -43,5 +43,6 @@
 
 /*Intern Functionality*/
 
+//#include "libft/libft.h" // Custom Libft functions
 
 #endif // HEADER_H

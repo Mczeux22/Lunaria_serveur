@@ -1,0 +1,8 @@
+sudo -u postgres psql // BASH DB 
+
+Lister les bases de données = \l
+Se connecter à une DB = \c lunaria_db
+Vérifier s’il tourne = sudo systemctl status postgresql
+Le redémarrer = sudo systemctl restart postgresql
+Le démarrer = sudo systemctl start postgresql
+L’arrêter = sudo systemctl stop postgresql
