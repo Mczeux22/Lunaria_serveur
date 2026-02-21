@@ -6,12 +6,3 @@
  * @ Description:
  */
 
-
-#include "../../Include/header.h"
-#include "struct_loot.h"
-
-class	Loot_service
-{
-	public:
-		LootResult rollloot(int	mob_id, int	player_level);
-};
