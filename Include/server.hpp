@@ -1,42 +1,12 @@
-<<<<<<< HEAD
-#include "header.hpp"
-
-#ifndef SERVER_HPP
-#define SERVER_HPP
-
-class	Server
-{
-	public:
-		Server(int port);
-		void	run();
-
-	private:
-		int port_;
-		asio::io_context io;
-};
-
-#endif
-=======
 /**
  * @ Author: Lopapon
- * @ Create Time: 2026-01-26 20:43:12
-<<<<<<<< HEAD:Include/header.hpp
- * @ Modified by: Your name
- * @ Modified time: 2026-02-21 01:02:13
- * @ Description:
- */
-
-#ifndef HEADER_HPP
-#define HEADER_HPP
-========
+ * @ Create Time: 2026-02-23 22:37:24
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-20 15:00:59
+ * @ Modified time: 2026-02-23 22:55:28
  * @ Description:
  */
-
 #ifndef SERVER_HPP
 #define SERVER_HPP
->>>>>>>> c2292b8 (Modification server.hpp):Include/server.hpp
 
 /* Standard Libraries */
 
