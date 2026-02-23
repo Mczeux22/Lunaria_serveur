@@ -1,6 +1,7 @@
 /**
  * @ Author: Lopapon
  * @ Create Time: 2026-01-26 20:43:12
+<<<<<<<< HEAD:Include/header.hpp
  * @ Modified by: Your name
  * @ Modified time: 2026-02-21 01:02:13
  * @ Description:
@@ -8,6 +9,15 @@
 
 #ifndef HEADER_HPP
 #define HEADER_HPP
+========
+ * @ Modified by: Lopapon
+ * @ Modified time: 2026-02-20 15:00:59
+ * @ Description:
+ */
+
+#ifndef SERVER_HPP
+#define SERVER_HPP
+>>>>>>>> c2292b8 (Modification server.hpp):Include/server.hpp
 
 /* Standard Libraries */
 
@@ -43,6 +53,18 @@
 
 /*Intern Functionality*/
 
-//#include "libft/libft.h" // Custom Libft functions
+// Class
+
+class Server {
+public:
+    Server(asio::io_context& io_context, short port);
+    void run();
+
+private:
+    void accept_connection();
+
+    asio::io_context& io_context_;  // Référence à io_context
+    asio::ip::tcp::acceptor acceptor_;
+};
 
 #endif // HEADER_H
