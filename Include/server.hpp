@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-23 22:37:24
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-23 22:55:28
+ * @ Modified time: 2026-02-24 03:55:22
  * @ Description:
  */
 #ifndef SERVER_HPP
@@ -41,6 +41,9 @@
 #include <exception> // std::exception
 
 /*Intern Functionality*/
+
+#include <player.hpp>
+#include <struct_loot.hpp>
 
 // Class
 

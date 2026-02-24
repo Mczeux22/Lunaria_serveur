@@ -2,18 +2,26 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-21 21:16:41
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-23 20:00:54
+ * @ Modified time: 2026-02-24 04:25:07
  * @ Description:
  */
 
 #include <player.hpp>
 
-void	player()
+// Section a dev plus tard juste idee de prototypage
+
+
+bool	new_player(int	account_id) // Si nouveau joueur et aucun personnage
 {
-	float	pos_x;
-	float	pos_y;
-	
-	pos_x = 0;
-	pos_y = 0;
-	
+	return 0;
+}
+
+void	player_initialisation() // Initialise le joueur par rapport au information de la DB
+{
+	return 0;
+}
+
+void	player() //Lance le personnage du joueur
+{
+	return 0;
 }

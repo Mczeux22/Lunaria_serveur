@@ -2,10 +2,10 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-23 22:35:05
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-23 22:56:59
+ * @ Modified time: 2026-02-24 03:54:36
  * @ Description:
  */
-#include "header.hpp"
+#include <server.hpp>
 
 Server	server::run()
 {
@@ -14,8 +14,7 @@ Server	server::run()
 	std::cout << "Serveur en attente" << std::endl;
 }
 
-int	main(void)
+int	main()
 {
-	server.port();
-	server.run();
+	server_initialisation();
 }
