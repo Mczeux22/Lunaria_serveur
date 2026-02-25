@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-21 21:16:46
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-24 03:52:19
+ * @ Modified time: 2026-02-25 18:34:31
  * @ Description:
  */
 
@@ -20,8 +20,8 @@ struct	player
 	char	*name; //Penser a recuperer le nom sans malloc
 	float	pos_x;
 	float	pos_y;
-	float	velocity_x
-	float	velocity_y
+	float	velocity_x;
+	float	velocity_y;
 	float	speed;
 
 	//Stats player
