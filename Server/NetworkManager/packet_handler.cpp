@@ -2,50 +2,29 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 20:10:07
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 20:10:31
+ * @ Modified time: 2026-02-25 22:41:34
  * @ Description:
  */
 
 #include <packet_handler.hpp>
 
-// ===========================
-//  CONSTRUCTEUR
-// ===========================
-
-PacketHandler::PacketHandler(uint32_t session_id)
-	: session_id_(session_id)
+PacketHandler::PacketHandler(uint32_t session_id, SendCallback send_fn)
+	: session_id_(session_id),
+	  send_(send_fn)
 {}
-
-// ===========================
-//  RECEPTION DES DONNEES
-// ===========================
-
-// TCP est un flux continu d'octets.
-// Un appel à do_read() peut recevoir :
-//   - Un paquet complet
-//   - Un morceau de paquet (fragmentation)
-//   - Plusieurs paquets d'un coup (coalescing)
-//
-// On accumule tout dans buffer_ et on traite
-// uniquement quand on a un paquet complet.
 
 void	PacketHandler::on_data_received(const char* data, std::size_t length)
 {
-	// Ajout des nouvelles données dans le buffer
 	buffer_.insert(buffer_.end(), data, data + length);
 
-	// Boucle : on traite tous les paquets complets disponibles
 	while (true)
 	{
-		// Pas assez de données pour lire le header
 		if (buffer_.size() < sizeof(PacketHeader))
 			break ;
 
-		// Lire le header sans consommer le buffer
 		PacketHeader	header;
 		std::memcpy(&header, buffer_.data(), sizeof(PacketHeader));
 
-		// Vérification de sécurité : paquet trop grand
 		if (header.length > MAX_PACKET_SIZE)
 		{
 			std::cerr << "[PacketHandler] Paquet trop grand, session "
@@ -54,25 +33,16 @@ void	PacketHandler::on_data_received(const char* data, std::size_t length)
 			break ;
 		}
 
-		// Pas encore le payload complet, on attend
 		std::size_t	total_size = sizeof(PacketHeader) + header.length;
 		if (buffer_.size() < total_size)
 			break ;
 
-		// Paquet complet — on dispatch
 		const uint8_t*	payload = buffer_.data() + sizeof(PacketHeader);
 		dispatch(static_cast<PacketType>(header.type), payload, header.length);
-
-		// Supprimer le paquet traité du buffer
 		buffer_.erase(buffer_.begin(), buffer_.begin() + total_size);
 	}
 }
 
-// ===========================
-//  DISPATCH
-// ===========================
-
-// Redirige vers le bon handler selon le type
 void	PacketHandler::dispatch(PacketType type, const uint8_t* payload, uint16_t length)
 {
 	switch (type)
@@ -93,9 +63,15 @@ void	PacketHandler::dispatch(PacketType type, const uint8_t* payload, uint16_t l
 	}
 }
 
-// ===========================
-//  HANDLERS
-// ===========================
+void	PacketHandler::handle_ping()
+{
+	std::cout << "[PacketHandler] Ping reçu de session "
+		<< session_id_ << std::endl;
+
+	// On répond avec un vrai paquet PKT_PONG
+	auto	pong = make_packet(PKT_PONG);
+	send_(pong);
+}
 
 void	PacketHandler::handle_login(const uint8_t* payload, uint16_t length)
 {
@@ -107,15 +83,11 @@ void	PacketHandler::handle_login(const uint8_t* payload, uint16_t length)
 
 	PktLogin	pkt;
 	std::memcpy(&pkt, payload, sizeof(PktLogin));
-
-	// Sécurité : forcer le null terminator
 	pkt.username[31] = '\0';
 	pkt.password[63] = '\0';
 
 	std::cout << "[Login] Tentative de " << pkt.username << std::endl;
-
-	// TODO : vérification en DB ici
-	// Pour l'instant on accepte tout le monde
+	// TODO : vérification en DB
 }
 
 void	PacketHandler::handle_chat(const uint8_t* payload, uint16_t length)
@@ -132,11 +104,4 @@ void	PacketHandler::handle_chat(const uint8_t* payload, uint16_t length)
 
 	std::cout << "[Chat] session " << session_id_
 		<< " : " << pkt.message << std::endl;
-}
-
-void	PacketHandler::handle_ping()
-{
-	std::cout << "[PacketHandler] Ping reçu de session "
-		<< session_id_ << std::endl;
-	// TODO : envoyer PKT_PONG en retour via la session
 }

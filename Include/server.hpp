@@ -1,3 +1,10 @@
+/**
+ * @ Author: Lopapon
+ * @ Create Time: 2026-02-23 22:37:24
+ * @ Modified by: Lopapon
+ * @ Modified time: 2026-02-25 20:18:38
+ * @ Description:
+ */
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
@@ -5,6 +12,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
+#include <cstdint>
 
 /* Boost Asio */
 #include <boost/asio.hpp>
@@ -16,6 +25,10 @@ using tcp = boost::asio::ip::tcp;
 #include <player.hpp>
 #include <struct_loot.hpp>
 
+// Forward declaration — on dit au compilateur que PacketHandler existe
+// sans avoir besoin d'inclure son header ici
+class PacketHandler;
+
 // ===== SESSION =====
 class Session : public std::enable_shared_from_this<Session>
 {
@@ -26,10 +39,10 @@ public:
 private:
 	void	do_read();
 
-	tcp::socket	socket_;
-	char		data_[1024];
-	PacketHandler	handler_;
-	uint32_t	session_id_;
+	tcp::socket			socket_;
+	char				data_[1024];
+	std::unique_ptr<PacketHandler>	handler_;
+	uint32_t			session_id_;
 };
 
 // ===== SERVER =====
