@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 23:17:32
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 23:42:52
+ * @ Modified time: 2026-02-25 23:55:39
  * @ Description:
  */
 #include "packet_handler.hpp"
@@ -68,7 +68,6 @@ void	PacketHandler::handle_ping()
 	std::cout << "[PacketHandler] Ping reçu de session "
 		<< session_id_ << std::endl;
 
-	// On répond avec un vrai paquet PKT_PONG
 	auto	pong = make_packet(PKT_PONG);
 	send_(pong);
 }
