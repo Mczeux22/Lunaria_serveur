@@ -2,10 +2,11 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 23:17:32
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 23:19:04
+ * @ Modified time: 2026-02-25 23:42:52
  * @ Description:
  */
-#include <packet_handler.hpp>
+#include "packet_handler.hpp"
+#include "db.hpp"
 
 PacketHandler::PacketHandler(uint32_t session_id, SendCallback send_fn)
 	: session_id_(session_id),
@@ -86,7 +87,32 @@ void	PacketHandler::handle_login(const uint8_t* payload, uint16_t length)
 	pkt.password[63] = '\0';
 
 	std::cout << "[Login] Tentative de " << pkt.username << std::endl;
-	// TODO : vérification en DB
+
+	uint32_t	account_id = 0;
+	LoginResult	result = g_db->login(pkt.username, pkt.password, account_id);
+
+	if (result == LoginResult::OK)
+	{
+		std::cout << "[Login] " << pkt.username
+			<< " connecté, account_id=" << account_id << std::endl;
+
+		PktLoginOk	ok_pkt;
+		ok_pkt.session_id	= session_id_;
+		ok_pkt.player_id	= account_id;
+
+		auto buf = make_packet(PKT_LOGIN_OK, &ok_pkt, sizeof(PktLoginOk));
+		send_(buf);
+	}
+	else
+	{
+		std::cout << "[Login] Echec pour " << pkt.username << std::endl;
+
+		PktLoginFail	fail_pkt;
+		fail_pkt.reason = (result == LoginResult::ACCOUNT_NOT_FOUND) ? 1 : 0;
+
+		auto buf = make_packet(PKT_LOGIN_FAIL, &fail_pkt, sizeof(PktLoginFail));
+		send_(buf);
+	}
 }
 
 void	PacketHandler::handle_chat(const uint8_t* payload, uint16_t length)
