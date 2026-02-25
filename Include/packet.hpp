@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 20:02:01
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 20:02:21
+ * @ Modified time: 2026-02-25 23:13:17
  * @ Description:
  */
 #ifndef PACKET_HPP
@@ -12,10 +12,6 @@
 #include <cstring>
 #include <string>
 #include <vector>
-
-// ===========================
-//  IDs DES PAQUETS
-// ===========================
 
 enum PacketType : uint8_t
 {
