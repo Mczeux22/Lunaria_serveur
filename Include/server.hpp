@@ -28,6 +28,8 @@ private:
 
 	tcp::socket	socket_;
 	char		data_[1024];
+	PacketHandler	handler_;
+	uint32_t	session_id_;
 };
 
 // ===== SERVER =====

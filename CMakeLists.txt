@@ -12,15 +12,17 @@ set(PVE_SYSTEM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/PVE_System)
 
 # Fichiers sources (liste explicite pour éviter les erreurs de GLOB)
 set(SOURCES
-    ${SOURCE_DIR}/main_server.cpp
-    ${SOURCE_DIR}/server.cpp
-    # Ajoute ici tous les autres fichiers .cpp de Server/, Player_System/, et PVE_System/
+	${SOURCE_DIR}/main_server.cpp
+	${SOURCE_DIR}/server.cpp
+	${SOURCE_DIR}/NetworkManager/packet_handler.cpp
 )
 
-# Fichiers d'en-tête
 set(HEADERS
-    ${INCLUDE_DIR}/server.hpp
-    # Ajoute ici tous les autres fichiers .hpp
+	${INCLUDE_DIR}/server.hpp
+	${INCLUDE_DIR}/packet.hpp
+	${INCLUDE_DIR}/packet_handler.hpp
+	${INCLUDE_DIR}/player.hpp
+	${INCLUDE_DIR}/struct_loot.hpp
 )
 
 # Exécutable
