@@ -1,8 +1,8 @@
 /**
  * @ Author: Lopapon
  * @ Create Time: 2026-02-21 21:16:46
- * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 18:44:49
+ * @ Modified by: Your name
+ * @ Modified time: 2026-02-26 20:13:18
  * @ Description:
  */
 
@@ -11,13 +11,11 @@
 
 #include "server.hpp"
 
-// struct lier au joueur
-
 struct	player
 {
 	// Infomation player
 	int	account_id;
-	char	*name; //Penser a recuperer le nom sans malloc
+	char	*name;
 	float	pos_x;
 	float	pos_y;
 	float	velocity_x;

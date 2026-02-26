@@ -1,8 +1,8 @@
 /**
  * @ Author: Lopapon
  * @ Create Time: 2026-02-23 22:37:24
- * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 20:18:38
+ * @ Modified by: Your name
+ * @ Modified time: 2026-02-26 20:14:21
  * @ Description:
  */
 #ifndef SERVER_HPP
@@ -25,11 +25,8 @@ using tcp = boost::asio::ip::tcp;
 #include <player.hpp>
 #include <struct_loot.hpp>
 
-// Forward declaration — on dit au compilateur que PacketHandler existe
-// sans avoir besoin d'inclure son header ici
 class PacketHandler;
 
-// ===== SESSION =====
 class Session : public std::enable_shared_from_this<Session>
 {
 public:
@@ -45,7 +42,6 @@ private:
 	uint32_t			session_id_;
 };
 
-// ===== SERVER =====
 class Server
 {
 public:

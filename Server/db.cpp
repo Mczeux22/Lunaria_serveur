@@ -1,8 +1,8 @@
 /**
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 23:13:52
- * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 23:14:00
+ * @ Modified by: Your name
+ * @ Modified time: 2026-02-26 20:17:48
  * @ Description:
  */
 
@@ -10,10 +10,6 @@
 
 // Instance globale
 Database*	g_db = nullptr;
-
-// ===========================
-//  CONSTRUCTEUR
-// ===========================
 
 Database::Database(const std::string& connection_string)
 {
@@ -43,20 +39,10 @@ bool	Database::is_connected() const
 	return conn_ != nullptr && PQstatus(conn_) == CONNECTION_OK;
 }
 
-// ===========================
-//  HASH DU MOT DE PASSE
-// ===========================
-
-// On utilise pgcrypto directement dans la requête SQL
-// Le hash ne transite jamais en clair dans le code C++
 std::string	Database::hash_password(const std::string& password)
 {
-	return password; // Placeholder — le vrai hash se fait en SQL
+	return password;
 }
-
-// ===========================
-//  LOGIN
-// ===========================
 
 LoginResult	Database::login(const std::string& username,
 				const std::string& password,
@@ -65,8 +51,6 @@ LoginResult	Database::login(const std::string& username,
 	if (!is_connected())
 		return LoginResult::DB_ERROR;
 
-	// Requête préparée — jamais de concaténation de strings
-	// pour éviter les injections SQL
 	const char*	params[2] = {
 		username.c_str(),
 		password.c_str()
@@ -95,8 +79,6 @@ LoginResult	Database::login(const std::string& username,
 	if (PQntuples(res) == 0)
 	{
 		PQclear(res);
-		// On ne sait pas si c'est mauvais mdp ou compte inexistant
-		// Pour la sécurité on retourne le même message
 		return LoginResult::WRONG_PASSWORD;
 	}
 
@@ -104,10 +86,6 @@ LoginResult	Database::login(const std::string& username,
 	PQclear(res);
 	return LoginResult::OK;
 }
-
-// ===========================
-//  CREATION DE COMPTE
-// ===========================
 
 bool	Database::create_account(const std::string& username,
 				const std::string& password)
@@ -119,9 +97,6 @@ bool	Database::create_account(const std::string& username,
 		username.c_str(),
 		password.c_str()
 	};
-
-	// crypt() avec gen_salt('bf') = bcrypt
-	// Le mot de passe est hashé directement en DB, jamais stocké en clair
 	PGresult*	res = PQexecParams(conn_,
 		"INSERT INTO accounts (username, password_hash) "
 		"VALUES ($1, crypt($2, gen_salt('bf')))",
