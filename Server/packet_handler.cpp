@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 23:17:32
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 23:55:39
+ * @ Modified time: 2026-02-28 00:39:54
  * @ Description:
  */
 #include "packet_handler.hpp"
@@ -49,6 +49,9 @@ void	PacketHandler::dispatch(PacketType type, const uint8_t* payload, uint16_t l
 	{
 		case PKT_LOGIN:
 			handle_login(payload, length);
+			break ;
+		case PKT_REGISTER:
+			handle_register(payload, length);
 			break ;
 		case PKT_CHAT:
 			handle_chat(payload, length);
@@ -128,4 +131,37 @@ void	PacketHandler::handle_chat(const uint8_t* payload, uint16_t length)
 
 	std::cout << "[Chat] session " << session_id_
 		<< " : " << pkt.message << std::endl;
+}
+
+void	PacketHandler::handle_register(const uint8_t* payload, uint16_t length)
+{
+	if (length < sizeof(PktLogin))	// Même struct que login
+	{
+		std::cerr << "[PacketHandler] PKT_REGISTER trop court." << std::endl;
+		return ;
+	}
+
+	PktLogin	pkt;
+	std::memcpy(&pkt, payload, sizeof(PktLogin));
+	pkt.username[31] = '\0';
+	pkt.password[63] = '\0';
+
+	std::cout << "[Register] Tentative de création : " << pkt.username << std::endl;
+
+	bool	ok = g_db->create_account(pkt.username, pkt.password);
+
+	if (ok)
+	{
+		std::cout << "[Register] Compte créé : " << pkt.username << std::endl;
+		auto buf = make_packet(PKT_REGISTER_OK);
+		send_(buf);
+	}
+	else
+	{
+		std::cout << "[Register] Echec création : " << pkt.username << std::endl;
+		PktRegisterFail	fail;
+		fail.reason = 0;
+		auto buf = make_packet(PKT_REGISTER_FAIL, &fail, sizeof(PktRegisterFail));
+		send_(buf);
+	}
 }

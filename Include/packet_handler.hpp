@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 20:11:01
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-25 22:59:45
+ * @ Modified time: 2026-02-28 00:42:59
  * @ Description:
  */
 
@@ -26,6 +26,7 @@ public:
 private:
 	void	dispatch(PacketType type, const uint8_t* payload, uint16_t length);
 	void	handle_login(const uint8_t* payload, uint16_t length);
+	void	handle_register(const uint8_t* payload, uint16_t length);
 	void	handle_chat(const uint8_t* payload, uint16_t length);
 	void	handle_ping();
 

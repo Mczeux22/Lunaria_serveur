@@ -1,8 +1,8 @@
 /**
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 20:02:01
- * @ Modified by: Your name
- * @ Modified time: 2026-02-26 20:12:27
+ * @ Modified by: Lopapon
+ * @ Modified time: 2026-02-28 00:45:16
  * @ Description:
  */
 #ifndef PACKET_HPP
@@ -19,6 +19,9 @@ enum PacketType : uint8_t
 	PKT_LOGIN		= 0x01,
 	PKT_LOGIN_OK		= 0x02,
 	PKT_LOGIN_FAIL		= 0x03,
+	PKT_REGISTER		= 0x04,
+	PKT_REGISTER_OK		= 0x05,
+	PKT_REGISTER_FAIL		= 0x06,
 
 	// Gameplay TCP
 	PKT_CHAT		= 0x10,
@@ -41,6 +44,16 @@ struct	PacketHeader
 {
 	uint8_t		type;
 	uint16_t	length;	
+};
+
+struct	PktRegisterOk
+{
+	uint32_t	account_id;
+};
+
+struct	PktRegisterFail
+{
+	uint8_t	reason;
 };
 
 struct	PktLogin
