@@ -2,7 +2,7 @@
  * @ Author: Lopapon
  * @ Create Time: 2026-02-25 20:02:01
  * @ Modified by: Lopapon
- * @ Modified time: 2026-02-28 00:45:16
+ * @ Modified time: 2026-05-02 17:52:57
  * @ Description:
  */
 #ifndef PACKET_HPP
@@ -16,15 +16,15 @@
 enum PacketType : uint8_t
 {
 	// Auth TC
-	PKT_LOGIN		= 0x01,
+	PKT_LOGIN			= 0x01,
 	PKT_LOGIN_OK		= 0x02,
 	PKT_LOGIN_FAIL		= 0x03,
 	PKT_REGISTER		= 0x04,
 	PKT_REGISTER_OK		= 0x05,
-	PKT_REGISTER_FAIL		= 0x06,
+	PKT_REGISTER_FAIL	= 0x06,
 
 	// Gameplay TCP
-	PKT_CHAT		= 0x10,
+	PKT_CHAT			= 0x10,
 	PKT_CHANGE_ZONE		= 0x11,
 	PKT_ITEM_PICKUP		= 0x12,
 
@@ -32,6 +32,13 @@ enum PacketType : uint8_t
 	PKT_PLAYER_MOVE		= 0x20,
 	PKT_PLAYER_ATTACK	= 0x21,
 	PKT_WORLD_STATE		= 0x22,
+
+	// Inventory
+	PKT_INVENTORY_REQUEST		=	0x30,
+	PKT_INVENTORY_DATA			=	0x31
+	PKT_INVENTORY_ITEM_USE		=	0x32
+	PKT_INVENTORY_ITEM_DROP		=	0x33
+	PKT_INVENTORY_ITEM_UPDTADE	=	0x34
 
 	// Utilitaire
 	PKT_PING		= 0xF0,
@@ -78,8 +85,13 @@ struct	PktPlayerMove
 	uint32_t	session_id;	// Pour identifier le joueur en UDP
 	float		x;
 	float		y;
+	float		z;
 	float		velocity_x;
 	float		velocity_y;
+	float		velocity_z;
+	float		rotation_y;
+	uint8_t		flags; // bitmap : jump / dash / floor
+	uint32_t	timestamp; // reconciliation client serveur
 };
 
 struct	PktPlayerAttack
